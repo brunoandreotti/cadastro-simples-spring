@@ -1,0 +1,46 @@
+#Lista os serviços que serão subidos neste docker-compose
+services:
+  #Nomeia o serviço.
+  app-cadastro:
+    #Informa que utilizará uma Dockerfile na raiz do projeto.
+    build: .
+    #Informa que irá depender de outro serviço antes de subir.
+    depends_on:
+      #Informa qual o serviço.
+      postgres:
+        #Informa qual a condição que o serviço precisa estar. Neste caso o container com a aplicação só iniciará quando o container "postgres" estiver com a condição de "healthy".
+        condition: service_healthy
+    #Informa o nome que o container rodando a imagem da aplicação terá.
+    container_name: "app-cadastro"
+    #Mapeia a porta 8080 do container com a porta 8080 da nossa máquina, dessa maneira conseguimos acessar a porta 8080 do container pela porta 8080 da nossa máquina
+    ports:
+      - "8080:8080"
+    #Define variáveis de ambiente
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/dbtest
+
+  #Nomeia o serviço.
+  postgres:
+    #Defina qual imagem será utilizada pelo serviço. Obs: no caso do serviço da aplicação, utilizamos o "build" ao invés do "image" pois estamos utilizando uma imagem local definida em uma Dockerfile
+    image: postgres
+    #Nomeia o container
+    container_name: "postgres"
+    #Cria o local que os dados do container serão salvos
+    volumes:
+      - ./postgres:/var/lib/postgres
+    #Define variáveis de ambiente
+    environment:
+      - POSTGRES_DB=dbtest
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    #Mapeia a porta 5432 do container com a porta 5432 da nossa máquina.
+    ports:
+      - "5432:5432"
+    #Define o comando que será utilizado para fazer o healthcheck desse container. Este healthcheck que será utilizado pelo container da aplicação no "depends on"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+
+  #OBS: Para rodar o docker-compose e subir os containers utilize o comando "docker compose up -d" no terminando aberto na pasta raiz do projeto.
+  # Para finalizar os container utilize o comando "docker compose down"
+  # Caso necessite de permissão, utilize "sudo" antes dos comandos.
+  # A aplicação poderá ser acessada em localhost:8080
