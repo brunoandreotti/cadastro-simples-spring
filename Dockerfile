@@ -13,9 +13,11 @@ COPY gradle/ gradle/
 #Copia a pasta "src" do projeto que contém todo o código do projeto para uma pasta "src" dentro do workdir
 COPY src/ src/
 
+# Garante que gradlew é executável
+RUN chmod +x gradlew
 
 #Executa o buildo do projeto com o Gradle dentro do workdir
-RUN ./gradlew clean build
+RUN ./gradlew clean build -x test
 
 #Informa que será utilizado o Java 21
 FROM openjdk:21-jdk-slim

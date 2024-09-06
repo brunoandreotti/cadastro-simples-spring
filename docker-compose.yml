@@ -18,6 +18,8 @@ services:
     #Define variáveis de ambiente
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/dbtest
+      - DB_USERNAME=test
+      - DB_PASSWORD=test
 
   #Nomeia o serviço.
   postgres:
