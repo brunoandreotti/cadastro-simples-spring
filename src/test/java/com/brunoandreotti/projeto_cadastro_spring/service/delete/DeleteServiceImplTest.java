@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
@@ -34,14 +35,17 @@ public class DeleteServiceImplTest {
             verify(userPJRepository, times(1)).deleteById(validId);
         }
 
-    @Test
-    public void test_deletePJ_successful_deletion_2() {
-        Long validId = 1L;
-        doNothing().when(userPJRepository).deleteById(validId);
+        @Test
+        public void test_deletePJ_successful_deletion_2() {
+            UserPJRepository userPJRepository = Mockito.mock(UserPJRepository.class);
+            DeleteServiceImpl deleteService = new DeleteServiceImpl(null, userPJRepository);
 
-        deleteService.deletePJ(validId);
+            Long validId = 1L;
+            Mockito.when(userPJRepository.existsById(validId)).thenReturn(true);
 
-        verify(userPJRepository, times(1)).deleteById(validId);
-    }
+            deleteService.deletePJ(validId);
+
+            Mockito.verify(userPJRepository, Mockito.times(1)).deleteById(validId);
+        }
 
 }
