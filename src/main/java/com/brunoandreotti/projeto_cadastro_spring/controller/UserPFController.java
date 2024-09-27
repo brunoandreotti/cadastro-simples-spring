@@ -19,4 +19,6 @@ public interface UserPFController {
     ResponseEntity<UserResponseDTO> findPFById(Long id);
 
     ResponseEntity<List<UserResponseDTO>> findPFByName(String name);
+
+    ResponseEntity<Void> deletePFById(Long id);
 }

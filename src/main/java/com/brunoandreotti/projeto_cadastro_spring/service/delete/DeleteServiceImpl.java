@@ -19,4 +19,8 @@ public class DeleteServiceImpl {
     public void deletePJ(Long id) {
         userPJRepository.deleteById(id);
     }
+
+    public void deletePF(Long id) {
+        userPFRepository.deleteById(id);
+    }
 }
