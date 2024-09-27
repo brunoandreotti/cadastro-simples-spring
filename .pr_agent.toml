@@ -1,0 +1,5 @@
+[config]
+# models
+model="gpt-3.5-turbo-0125"
+model_turbo="gpt-3.5-turbo-0125"
+fallback_models=["gpt-3.5-turbo-0125"]
