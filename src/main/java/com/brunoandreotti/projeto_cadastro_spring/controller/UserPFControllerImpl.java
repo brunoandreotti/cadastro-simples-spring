@@ -2,6 +2,7 @@ package com.brunoandreotti.projeto_cadastro_spring.controller;
 
 import com.brunoandreotti.projeto_cadastro_spring.controller.dtos.UserRequestDTO;
 import com.brunoandreotti.projeto_cadastro_spring.controller.dtos.UserResponseDTO;
+import com.brunoandreotti.projeto_cadastro_spring.service.delete.DeleteServiceImpl;
 import com.brunoandreotti.projeto_cadastro_spring.service.find.FindService;
 import com.brunoandreotti.projeto_cadastro_spring.service.list.ListService;
 import com.brunoandreotti.projeto_cadastro_spring.service.register.RegisterService;
@@ -19,11 +20,13 @@ public class UserPFControllerImpl implements UserPFController {
     private final RegisterService registerService;
     private final ListService listService;
     private final FindService findService;
+    private final DeleteServiceImpl deleteService;
 
-    public UserPFControllerImpl(RegisterService registerService, ListService listService, FindService findService) {
+    public UserPFControllerImpl(RegisterService registerService, ListService listService, FindService findService, DeleteServiceImpl deleteService) {
         this.registerService = registerService;
         this.listService = listService;
         this.findService = findService;
+        this.deleteService = deleteService;
     }
 
     @Override
@@ -62,6 +65,13 @@ public class UserPFControllerImpl implements UserPFController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(findService.findPFByName(name).stream().map(UserResponseDTO::fromUserPF).toList());
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePFById(@PathVariable Long id) {
+        deleteService.deletePJ(id);
+        return ResponseEntity.status(200).build();
     }
 
 
