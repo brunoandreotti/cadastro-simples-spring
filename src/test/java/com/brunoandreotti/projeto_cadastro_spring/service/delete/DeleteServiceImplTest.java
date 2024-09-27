@@ -53,12 +53,14 @@ public class DeleteServiceImplTest {
         UserPJRepository userPJRepository = Mockito.mock(UserPJRepository.class);
         DeleteServiceImpl deleteService = new DeleteServiceImpl(null, userPJRepository);
 
-        Long validId = 1L;
-        Mockito.when(userPJRepository.existsById(validId)).thenReturn(true);
-
-        deleteService.deletePJ(validId);
-
-        Mockito.verify(userPJRepository, Mockito.times(1)).deleteById(validId);
+        56 +        Long validId = 1L;
+        57 +        Mockito.when(userPJRepository.existsById(validId)).thenReturn(true);
+        59 +
+        60 +        // Verify the deletion
+        61 +        deleteService.deletePJ(validId);
+        62 +
+        63 +        // Verify that deleteById was called with the correct id
+        64 +        Mockito.verify(userPJRepository, Mockito.times(1)).deleteById(validId);
     }
 
 }
