@@ -5,19 +5,12 @@ FROM gradle:8.8-jdk21-alpine AS build
 WORKDIR /app
 
 #Copia as arquivos da raiz do projeto para o caminho definido no workdir
-COPY build.gradle settings.gradle gradlew ./
-
-#Copia a pasta para o caminho definido no workdir
-COPY gradle/ gradle/
+COPY build.gradle settings.gradle ./
 
 #Copia a pasta "src" do projeto que contém todo o código do projeto para uma pasta "src" dentro do workdir
-COPY src/ src/
+COPY src ./src
 
-# Garante que gradlew é executável
-RUN chmod +x gradlew
-
-#Executa o buildo do projeto com o Gradle dentro do workdir
-RUN ./gradlew clean build -x test
+RUN gradle build
 
 #Informa que será utilizado o Java 21
 FROM openjdk:21-jdk-slim

@@ -16,4 +16,6 @@ public interface UserPJController {
     ResponseEntity<UserResponseDTO> findPJById(Long id);
 
     ResponseEntity<List<UserResponseDTO>> findPJByName(String name);
+
+    ResponseEntity<Void> deletePJById(Long id);
 }
