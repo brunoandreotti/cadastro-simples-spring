@@ -34,4 +34,14 @@ public class DeleteServiceImplTest {
             verify(userPJRepository, times(1)).deleteById(validId);
         }
 
+    @Test
+    public void test_deletePJ_successful_deletion_2() {
+        Long validId = 1L;
+        doNothing().when(userPJRepository).deleteById(validId);
+
+        deleteService.deletePJ(validId);
+
+        verify(userPJRepository, times(1)).deleteById(validId);
+    }
+
 }
