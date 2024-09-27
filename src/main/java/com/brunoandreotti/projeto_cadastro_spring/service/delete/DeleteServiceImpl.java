@@ -17,7 +17,11 @@ public class DeleteServiceImpl {
     }
 
     public void deletePJ(Long id) {
-        userPJRepository.deleteById(id);
+        if (id != null) {
+            if (userPJRepository.existsById(id)) {
+                userPJRepository.deleteById(id);
+            }
+        }
     }
 
     public void deletePF(Long id) {
